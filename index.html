@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+    <html>
+        <body>
+            <style>
+                header{
+                    text-align: center;
+                }
+                h2.Vencedor {
+                    text-align: center;
+                }
+                .player-options img{
+                    max-width: 200px;
+                    opacity: 0.3;
+                    cursor: pointer;
+                    padding-left: 100px;
+                }
+                .enemy-options img{
+                    max-width: 200px;
+                    opacity: 0.3;   
+                }
+                .player-options,.enemy-options{
+                    width: 100%;
+                }
+                .allign{
+                    display: flex;
+                }
+            </style>
+            <header>
+                <h1>Pedra < Papel < Tesoura</h1>
+            </header>
+            <h2 class="Vencedor"></h2>
+            <hr>
+            <div class="allign">
+                <div class="player-options">
+                    <div><img opt="pedra" src="rock.png"></div>
+                    <div><img opt="papel" src="paper.png"></div>
+                    <div><img opt="tesoura" src="scisor.png"></div>
+                </div>
+                <div class="enemy-options">
+                    <div><img opt="pedra" src="rock.png"></div>
+                    <div><img opt="papel" src="paper.png"></div>
+                    <div><img opt="tesoura" src="scisor.png"></div>
+                </div>
+            </div>    
+
+
+
+
+
+            <script>
+                var elementos = document.querySelectorAll('.player-options div > img');
+                var playerOpt = "";
+                var inimigoOpt = "";
+
+                function validarVitoria(){
+
+                    let Vencedor = document.querySelector('.Vencedor');
+                    
+                    if(playerOpt == "papel"){
+                        if(inimigoOpt == "papel"){
+                            Vencedor.innerHTML = "O jogo foi empatado";
+                        }else if(inimigoOpt == "tesoura"){
+                            Vencedor.innerHTML = "O Inimigo Venceu!";
+                        }else if(inimigoOpt == "pedra"){
+                            Vencedor.innerHTML = "Você Venceu";
+                        }
+                    }else if(playerOpt == "pedra"){
+                        if(inimigoOpt == "papel"){
+                            Vencedor.innerHTML = "O Inimigo Venceu!";
+                        }else if(inimigoOpt == "tesoura"){
+                            Vencedor.innerHTML = "Você Venceu";
+                        }else if(inimigoOpt == "pedra"){
+                            Vencedor.innerHTML = "O jogo foi empatado";
+                        }
+                    }else if(playerOpt == "tesoura"){
+                        if(inimigoOpt == "papel"){
+                            Vencedor.innerHTML = "Você Venceu";
+                        }else if(inimigoOpt == "tesoura"){
+                            Vencedor.innerHTML = "O jogo foi empatado";
+                        }else if(inimigoOpt == "pedra"){
+                            Vencedor.innerHTML = "O Inimigo Venceu!";
+                        }
+                    }
+                } 
+                
+                function resetInimigo(){
+                    const enemyOptions = document.querySelectorAll('.enemy-options div');
+                    for(var i = 0; i < enemyOptions.length; i++){
+                    
+                    enemyOptions[i].childNodes[0].style.opacity = 0.3;
+                    }
+                }    
+                function inimigoJogar(){
+                    let rand = Math.floor(Math.random()*3);
+
+                    const enemyOptions = document.querySelectorAll('.enemy-options div');
+                    resetInimigo();
+                    for(var i = 0; i < enemyOptions.length; i++){
+                        if(i == rand){
+                            enemyOptions[i].childNodes[0].style.opacity = 1;
+                            inimigoOpt =  enemyOptions[i].childNodes[0].getAttribute('opt');
+                        }
+                    }
+
+                    validarVitoria();
+
+                    //alert(playerOpt);
+                    //alert(inimigoOpt);
+                }
+                function resetOpacityPlayer(){
+                    for(var i = 0; i < elementos.length; i++){
+                    elementos[i].style.opacity = 0.3;
+                    }
+                }    
+                for(var i = 0; i < elementos.length; i++){
+                    elementos[i].addEventListener('click',function(t){
+                        resetOpacityPlayer();
+                        t.target.style.opacity = 1;
+                        playerOpt = t.target.getAttribute('opt');
+                        
+
+                        inimigoJogar();
+                    });
+                }
+
+
+
+
+            </script>
+        </body>
+    </html>
